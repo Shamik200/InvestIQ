@@ -1,0 +1,8 @@
+{
+  "binance_api_key": "",
+  "binance_api_secret": "",
+  "default_balance": 10000,
+  "commission": 0.0004,
+  "symbol": "BTC/USDT",
+  "timeframe": "1m"
+}
