@@ -12,7 +12,7 @@ from strategies.basic_strategy import generate_signals
 from models.prepare_ml_data import create_labels
 from strategies.ml_strategy import ensemble_predict_signals  # ✅ Only import this
 
-exchange = ccxt.binance()
+exchange = ccxt.kucoin()
 symbol = 'BTC/USDT'
 timeframe = '1m'
 limit = 1000
