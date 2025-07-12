@@ -25,12 +25,12 @@ export default function App() {
 
 const togglePaperTrading = async () => {
   if (!isPaperTrading) {
-    await axios.post("http://localhost:8000/start", {
+    await axios.post("https://investiq-frfe.onrender.com/start", {
       symbol: "BTC/USDT",
       timeframe: "1m"
     });
   } else {
-    await axios.post("http://localhost:8000/stop");
+    await axios.post("https://investiq-frfe.onrender.com/stop");
   }
 
   setIsPaperTrading(!isPaperTrading);
@@ -52,7 +52,7 @@ const togglePaperTrading = async () => {
 
   const fetchChart = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/chart", {
+      const res = await axios.get("https://investiq-frfe.onrender.com/chart", {
         params: { symbol, timeframe },
       });
       setChartData(res.data);
@@ -64,7 +64,7 @@ const togglePaperTrading = async () => {
   const trainModel = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/train_model", {
+      const response = await axios.post("https://investiq-frfe.onrender.com/train_model", {
         symbol,
         timeframe
       });
@@ -104,7 +104,7 @@ const togglePaperTrading = async () => {
   setIsLiveTrading(false);
   setIsPaperTrading(true);
 
-  axios.post("http://localhost:8000/start_paper_trading", {
+  axios.post("https://investiq-frfe.onrender.com/start_paper_trading", {
     symbol: symbol,
     timeframe: timeframe
     // model_type: model
