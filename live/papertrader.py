@@ -38,7 +38,7 @@ FEATURES = [
     'volatility', 'momentum_3'
 ]
 
-exchange = ccxt.coinbasepro()
+exchange = ccxt.coinbase()
 
 def fetch_ohlcv(symbol: str, timeframe:str):
     df = exchange.fetch_ohlcv(symbol, timeframe, limit=100)
