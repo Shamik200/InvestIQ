@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.routers import trading
 # from backend.routers import papertrading
 
-
 app = FastAPI()
 
 app.add_middleware(
@@ -17,3 +16,7 @@ app.add_middleware(
 
 # app.include_router(papertrading.router)
 app.include_router(trading.router)
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
