@@ -72,23 +72,43 @@ def add_indicators(df):
 def predict(df):
     df = df.dropna().copy()
     if len(df) == 0:
+        print("❌ Not enough rows after dropping NaNs")
         return 1, 0.0 
 
     X = df[FEATURES].iloc[-1:]
 
-    xgb_proba = models[0].predict_proba(X)[0][1] 
-    lgbm_proba = models[1].predict_proba(X)[0][1]
-    rf_proba = models[2].predict_proba(X)[0][1]
+    if X.isnull().any().any():
+        print("❌ Input has NaNs:\n", X)
+        return 1, 0.0
+
+    print("🧪 Features shape:", X.shape)
+    print("🧪 Last row of input:\n", X)
+
+    try:
+        xgb_proba = models[0].predict_proba(X)[0]
+        lgbm_proba = models[1].predict_proba(X)[0]
+        rf_proba = models[2].predict_proba(X)[0]
+    except Exception as e:
+        print("❌ Error during model prediction:", e)
+        return 1, 0.0
+
+    print("📈 XGB proba:", xgb_proba)
+    print("📈 LGBM proba:", lgbm_proba)
+    print("📈 RF proba:", rf_proba)
 
     weights = [0.4, 0.35, 0.25]
-    weighted_avg = (
-        weights[0] * xgb_proba +
-        weights[1] * lgbm_proba +
-        weights[2] * rf_proba
+    weighted_proba = (
+        weights[0] * np.array(xgb_proba) +
+        weights[1] * np.array(lgbm_proba) +
+        weights[2] * np.array(rf_proba)
     )
 
-    final_class = int(weighted_avg > 0.5)
-    confidence = round(weighted_avg, 4)
+    print("📊 Weighted ensemble probability:", weighted_proba)
+
+    final_class = int(np.argmax(weighted_proba))
+    confidence = float(np.max(weighted_proba))
+
+    print("🎯 Final class:", final_class, "| Confidence:", confidence)
 
     return final_class, confidence
 
