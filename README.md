@@ -96,6 +96,7 @@ investiq/
 
 ## 📷 UI Preview  
 ![](Screenshots/img1.png)
+![](Screenshots/img3.png)
 ![](Screenshots/img2.png)
 
 ---
