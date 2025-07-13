@@ -6,7 +6,7 @@ export default function TradeLogTable() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      axios.get("http://localhost:8000/trades")
+      axios.get("https://investiq-frfe.onrender.com/trades")
         .then(res => setLogs(res.data))
         .catch(err => console.error("Trade fetch error:", err));
     }, 5000);

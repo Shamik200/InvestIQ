@@ -7,7 +7,7 @@ export default function SignalViewer() {
   useEffect(() => {
     const fetchSignals = () => {
       axios
-        .get("http://localhost:8000/signals")
+        .get("https://investiq-frfe.onrender.com/signals")
         .then((res) => setSignals(res.data.reverse()))
         .catch((err) => console.error("Failed to load signals", err));
     };

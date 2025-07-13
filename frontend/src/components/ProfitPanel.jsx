@@ -7,7 +7,7 @@ export default function ProfitPanel() {
   useEffect(() => {
     const fetchProfit = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/total_profit");
+        const res = await axios.get("https://investiq-frfe.onrender.com/total_profit");
         setProfit(res.data.total_profit);
       } catch (err) {
         console.error("Profit fetch error", err);
