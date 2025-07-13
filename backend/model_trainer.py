@@ -7,7 +7,7 @@ import sys
 import ta
 
 def fetch_ohlcv(symbol, timeframe):
-    exchange = ccxt.binance()
+    exchange = ccxt.coinbase()
     df = exchange.fetch_ohlcv(symbol, timeframe, limit=1000)
     df = pd.DataFrame(df, columns=["timestamp", "open", "high", "low", "close", "volume"])
     df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
