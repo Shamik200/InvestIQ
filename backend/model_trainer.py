@@ -78,6 +78,17 @@ def train_all_models(symbol: str, timeframe: str):
 
     print("🎉 All models trained and saved successfully.")
 
+    restart_backend()
+
+def restart_backend():
+    try:
+        print("♻️ Restarting backend...")
+        subprocess.run(["pkill", "-f", "uvicorn"], check=True)  # kill the old backend
+        subprocess.Popen(["uvicorn", "backend.main:app", "--reload"])  # adjust path if needed
+        print("✅ Backend restarted.")
+    except subprocess.CalledProcessError as e:
+        print("❌ Backend restart failed:", e)
+
 
 if __name__ == "__main__":
     train_all_models("BTC/USDT", "1m")

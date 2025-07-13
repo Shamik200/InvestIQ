@@ -9,6 +9,7 @@ from prepare_ml_data import create_labels
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.pipeline import Pipeline
+import subprocess
 
 def tune_rf(data_path: str):
     df = pd.read_csv(data_path)
@@ -77,6 +78,17 @@ def tune_rf(data_path: str):
 
     joblib.dump(best_model, "models/rf_clf_tuned.pkl")
     print("✅ Random Forest model saved.")
+
+    push_model_to_github()
+
+def push_model_to_github():
+    try:
+        subprocess.run(["git", "add", "models/lgbm_clf_tuned.pkl"], check=True)
+        subprocess.run(["git", "commit", "-m", "🤖 Auto: updated LGBM model"], check=True)
+        subprocess.run(["git", "push", "origin", "main"], check=True)
+        print("✅ Model pushed to GitHub.")
+    except subprocess.CalledProcessError as e:
+        print("❌ Git push failed:", e)
 
 if __name__ == "__main__":
     tune_rf("data/BTCUSDT_1m_with_indicators_ML_ready.csv")
