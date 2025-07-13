@@ -41,7 +41,7 @@ FEATURES = [
 exchange = ccxt.coinbase()
 
 def fetch_ohlcv(symbol: str, timeframe:str):
-    df = exchange.fetch_ohlcv(symbol, timeframe, limit=100)
+    df = exchange.fetch_ohlcv(symbol, timeframe, limit=500)
     df = pd.DataFrame(df, columns=["timestamp", "open", "high", "low", "close", "volume"])
     df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
     return df
@@ -71,7 +71,8 @@ def add_indicators(df):
 
 def predict(df):
     df = df.dropna().copy()
-    if len(df) == 0:
+    print("🧹 Shape after dropna:", df.shape)
+    if len(df) < 1:
         print("❌ Not enough rows after dropping NaNs")
         return 1, 0.0 
 
@@ -194,6 +195,7 @@ def run(symbol: str, timeframe:str):
         try:
             df = fetch_ohlcv(symbol, timeframe)
             df = add_indicators(df)
+            print("📏 DataFrame shape after indicators:", df.shape)
             append_live_data(df)
             signal, confidence = predict(df)
             price = df["close"].iloc[-1]
