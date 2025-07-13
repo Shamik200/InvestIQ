@@ -74,21 +74,21 @@ def predict(df):
     if len(df) == 0:
         return 1, 0.0 
 
-    X = df[FEATURES].iloc[-1:] 
+    X = df[FEATURES].iloc[-1:]
 
-    xgb_proba = models[0].predict_proba(X)[0]
-    lgbm_proba = models[1].predict_proba(X)[0]
-    rf_proba = models[2].predict_proba(X)[0]
+    xgb_proba = models[0].predict_proba(X)[0][1] 
+    lgbm_proba = models[1].predict_proba(X)[0][1]
+    rf_proba = models[2].predict_proba(X)[0][1]
 
     weights = [0.4, 0.35, 0.25]
-    weighted_proba = (
+    weighted_avg = (
         weights[0] * xgb_proba +
         weights[1] * lgbm_proba +
         weights[2] * rf_proba
     )
 
-    final_class = int(np.argmax(weighted_proba)) 
-    confidence = float(np.max(weighted_proba))
+    final_class = int(weighted_avg > 0.5)
+    confidence = round(weighted_avg, 4)
 
     return final_class, confidence
 
